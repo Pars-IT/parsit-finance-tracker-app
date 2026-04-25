@@ -16,7 +16,7 @@ class TransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormatter = NumberFormat.currency(symbol: '\$');
+    final currencyFormatter = NumberFormat.currency(symbol: '\u20AC');
     final dateFormatter = DateFormat.yMMMd();
     final isIncome = transaction.type == TransactionType.income;
     final categoryStyle = transaction.category.style;

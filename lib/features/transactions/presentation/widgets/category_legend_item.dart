@@ -15,7 +15,7 @@ class CategoryLegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formatter = NumberFormat.currency(symbol: '\$');
+    final formatter = NumberFormat.currency(symbol: '\u20AC');
     final style = item.category.style;
 
     return Container(
