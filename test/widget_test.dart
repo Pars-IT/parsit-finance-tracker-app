@@ -1,33 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:parsit_finance_tracker_app/features/transactions/domain/entities/finance_transaction.dart';
-import 'package:parsit_finance_tracker_app/features/transactions/presentation/controllers/transactions_controller.dart';
-import 'package:parsit_finance_tracker_app/features/transactions/presentation/screens/home_screen.dart';
+import 'package:parsit_finance_tracker_app/features/transactions/presentation/widgets/empty_transactions_state.dart';
 
 void main() {
-  testWidgets('Home screen shows app title', (tester) async {
+  testWidgets('Empty transactions state shows guidance text', (tester) async {
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          transactionsControllerProvider.overrideWith(
-            () => _FakeTransactionsController(),
-          ),
-        ],
-        child: const MaterialApp(
-          home: HomeScreen(),
+      const MaterialApp(
+        home: Scaffold(
+          body: EmptyTransactionsState(),
         ),
       ),
     );
 
-    await tester.pumpAndSettle();
+    await tester.pump();
 
-    expect(find.text('Pars IT Finance Tracker'), findsOneWidget);
-    expect(find.text('Recent Transactions'), findsOneWidget);
+    expect(find.text('No transactions yet'), findsOneWidget);
+    expect(
+      find.text(
+        'No transactions yet. Use the menu or add button to record your first income or expense.',
+      ),
+      findsOneWidget,
+    );
   });
-}
-
-class _FakeTransactionsController extends TransactionsController {
-  @override
-  Future<List<FinanceTransaction>> build() async => [];
 }
