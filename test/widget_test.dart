@@ -15,7 +15,7 @@ void main() {
         overrides: [
           transactionRepositoryProvider.overrideWithValue(repository),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           home: HomeScreen(),
         ),
       ),
