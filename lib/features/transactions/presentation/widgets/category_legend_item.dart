@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../domain/entities/finance_transaction.dart';
 import '../models/category_breakdown.dart';
 import '../utils/transaction_category_style.dart';
 
@@ -61,4 +62,3 @@ class CategoryLegendItem extends StatelessWidget {
     );
   }
 }
-

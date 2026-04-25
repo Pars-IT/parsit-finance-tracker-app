@@ -28,7 +28,7 @@ class TransactionsController
 
   Future<void> refresh() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(_getTransactions);
+    state = await AsyncValue.guard(() => _getTransactions());
   }
 
   Future<void> createTransaction({

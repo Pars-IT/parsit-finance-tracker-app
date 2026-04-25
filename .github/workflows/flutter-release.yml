@@ -43,6 +43,16 @@ jobs:
       - name: Ensure Android scaffold exists
         run: flutter create . --platforms=android --project-name parsit_finance_tracker_app --org com.parsit.finance
 
+      - name: Set Android app label
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          manifest = Path("android/app/src/main/AndroidManifest.xml")
+          content = manifest.read_text()
+          content = content.replace('android:label="parsit_finance_tracker_app"', 'android:label="ParsIT Finance"')
+          manifest.write_text(content)
+          PY
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -70,4 +80,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: build/app/outputs/flutter-apk/FinanceTracker-${{ github.ref_name }}.apk
-
