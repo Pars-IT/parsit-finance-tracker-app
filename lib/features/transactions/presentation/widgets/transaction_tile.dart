@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entities/finance_transaction.dart';
+import '../utils/transaction_category_style.dart';
 
 class TransactionTile extends StatelessWidget {
   const TransactionTile({
@@ -18,6 +19,7 @@ class TransactionTile extends StatelessWidget {
     final currencyFormatter = NumberFormat.currency(symbol: '\$');
     final dateFormatter = DateFormat.yMMMd();
     final isIncome = transaction.type == TransactionType.income;
+    final categoryStyle = transaction.category.style;
 
     return Card(
       child: ListTile(
@@ -26,14 +28,10 @@ class TransactionTile extends StatelessWidget {
           vertical: 10,
         ),
         leading: CircleAvatar(
-          backgroundColor: isIncome
-              ? Theme.of(context).colorScheme.secondaryContainer
-              : Theme.of(context).colorScheme.errorContainer,
+          backgroundColor: categoryStyle.color.withAlpha(28),
           child: Icon(
-            isIncome ? Icons.arrow_downward_rounded : Icons.arrow_upward_rounded,
-            color: isIncome
-                ? Theme.of(context).colorScheme.onSecondaryContainer
-                : Theme.of(context).colorScheme.onErrorContainer,
+            categoryStyle.icon,
+            color: categoryStyle.color,
           ),
         ),
         title: Text(
@@ -43,32 +41,34 @@ class TransactionTile extends StatelessWidget {
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            '${transaction.category.label} • ${dateFormatter.format(transaction.date)}',
+            '${transaction.type.label} • ${transaction.category.label} • ${dateFormatter.format(transaction.date)}',
           ),
         ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              '${isIncome ? '+' : '-'}${currencyFormatter.format(transaction.amount)}',
-              style: TextStyle(
-                color: isIncome
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.error,
-                fontWeight: FontWeight.w800,
+        trailing: SizedBox(
+          width: 92,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '${isIncome ? '+' : '-'}${currencyFormatter.format(transaction.amount)}',
+                style: TextStyle(
+                  color: isIncome
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.error,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: onDelete,
-              icon: const Icon(Icons.delete_outline_rounded),
-              tooltip: 'Delete',
-              visualDensity: VisualDensity.compact,
-            ),
-          ],
+              IconButton(
+                onPressed: onDelete,
+                icon: const Icon(Icons.delete_outline_rounded),
+                tooltip: 'Delete',
+                visualDensity: VisualDensity.compact,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

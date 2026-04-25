@@ -16,6 +16,6 @@ void main() {
     await tester.pump();
 
     expect(find.text('Pars IT Finance Tracker'), findsOneWidget);
-    expect(find.text('Transactions'), findsOneWidget);
+    expect(find.text('Recent Transactions'), findsOneWidget);
   });
 }

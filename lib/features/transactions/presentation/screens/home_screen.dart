@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/transaction_actions_controller.dart';
+import '../controllers/transactions_controller.dart';
 import '../providers/transaction_providers.dart';
-import '../widgets/empty_transactions_state.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/brand_footer.dart';
+import '../widgets/category_chart_card.dart';
 import '../widgets/summary_card.dart';
-import '../widgets/transaction_tile.dart';
+import '../widgets/transactions_section.dart';
 import 'add_transaction_screen.dart';
+import 'about_screen.dart';
+import 'chart_screen.dart';
+import 'contact_screen.dart';
+import 'transactions_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -19,12 +25,32 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
+  Future<void> _openScreen(BuildContext context, Widget screen) async {
+    Navigator.of(context).pop();
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => screen,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionsAsync = ref.watch(transactionsProvider);
+    final transactionsAsync = ref.watch(transactionsControllerProvider);
     final summary = ref.watch(transactionSummaryProvider);
+    final chartItems = ref.watch(expenseCategoryBreakdownProvider);
 
     return Scaffold(
+      drawer: AppDrawer(
+        onAddTransaction: () {
+          Navigator.of(context).pop();
+          _openAddTransaction(context);
+        },
+        onViewTransactions: () => _openScreen(context, const TransactionsScreen()),
+        onViewChart: () => _openScreen(context, const ChartScreen()),
+        onViewAbout: () => _openScreen(context, const AboutScreen()),
+        onViewContact: () => _openScreen(context, const ContactScreen()),
+      ),
       appBar: AppBar(
         title: const Text('Pars IT Finance Tracker'),
       ),
@@ -35,9 +61,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async {
-            ref.invalidate(transactionsProvider);
-          },
+          onRefresh: () => ref.read(transactionsControllerProvider.notifier).refresh(),
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
             children: [
@@ -78,46 +102,18 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
+              CategoryChartCard(items: chartItems),
+              const SizedBox(height: 24),
               Text(
-                'Transactions',
+                'Recent Transactions',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
               ),
               const SizedBox(height: 12),
               transactionsAsync.when(
-                data: (transactions) {
-                  if (transactions.isEmpty) {
-                    return const EmptyTransactionsState();
-                  }
-
-                  return Column(
-                    children: transactions
-                        .map(
-                          (transaction) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: TransactionTile(
-                              transaction: transaction,
-                              onDelete: () async {
-                                await ref
-                                    .read(transactionActionsControllerProvider)
-                                    .removeTransaction(transaction.id);
-
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('Transaction deleted successfully'),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  );
-                },
+                data: (transactions) =>
+                    TransactionsSection(transactions: transactions, limit: 5),
                 loading: () => const Padding(
                   padding: EdgeInsets.symmetric(vertical: 48),
                   child: Center(child: CircularProgressIndicator()),
@@ -130,6 +126,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ),
+              const BrandFooter(),
             ],
           ),
         ),

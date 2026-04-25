@@ -24,7 +24,7 @@ class EmptyTransactionsState extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Tap the add button to record your first income or expense.',
+              'No transactions yet. Use the menu or add button to record your first income or expense.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
@@ -34,4 +34,3 @@ class EmptyTransactionsState extends StatelessWidget {
     );
   }
 }
-

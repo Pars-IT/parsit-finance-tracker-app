@@ -13,6 +13,9 @@ class AppTheme {
         brightness: Brightness.light,
       ),
       scaffoldBackgroundColor: const Color(0xFFF5F7F9),
+      drawerTheme: const DrawerThemeData(
+        backgroundColor: Color(0xFFF8FBFC),
+      ),
       appBarTheme: const AppBarTheme(
         centerTitle: false,
         elevation: 0,
@@ -49,4 +52,3 @@ class AppTheme {
     );
   }
 }
-

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/finance_transaction.dart';
-import '../controllers/transaction_actions_controller.dart';
+import '../controllers/transactions_controller.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key});
@@ -37,7 +37,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     });
 
     try {
-      await ref.read(transactionActionsControllerProvider).createTransaction(
+      await ref.read(transactionsControllerProvider.notifier).createTransaction(
             title: _titleController.text,
             amount: double.parse(_amountController.text),
             type: _selectedType,
@@ -126,9 +126,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
                     setState(() {
                       _selectedType = value;
-                      if (value == TransactionType.income) {
-                        _selectedCategory = TransactionCategory.salary;
-                      }
                     });
                   },
                 ),

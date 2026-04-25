@@ -1,6 +1,20 @@
 enum TransactionType { income, expense }
 
-enum TransactionCategory { salary, food, transport, shopping, other }
+enum TransactionCategory {
+  salary,
+  freelance,
+  food,
+  transport,
+  shopping,
+  bills,
+  entertainment,
+  health,
+  education,
+  travel,
+  investment,
+  gift,
+  other,
+}
 
 class FinanceTransaction {
   const FinanceTransaction({
@@ -42,17 +56,33 @@ extension TransactionTypeX on TransactionType {
 extension TransactionCategoryX on TransactionCategory {
   String get value => switch (this) {
         TransactionCategory.salary => 'salary',
+        TransactionCategory.freelance => 'freelance',
         TransactionCategory.food => 'food',
         TransactionCategory.transport => 'transport',
         TransactionCategory.shopping => 'shopping',
+        TransactionCategory.bills => 'bills',
+        TransactionCategory.entertainment => 'entertainment',
+        TransactionCategory.health => 'health',
+        TransactionCategory.education => 'education',
+        TransactionCategory.travel => 'travel',
+        TransactionCategory.investment => 'investment',
+        TransactionCategory.gift => 'gift',
         TransactionCategory.other => 'other',
       };
 
   String get label => switch (this) {
         TransactionCategory.salary => 'Salary',
+        TransactionCategory.freelance => 'Freelance',
         TransactionCategory.food => 'Food',
         TransactionCategory.transport => 'Transport',
         TransactionCategory.shopping => 'Shopping',
+        TransactionCategory.bills => 'Bills',
+        TransactionCategory.entertainment => 'Entertainment',
+        TransactionCategory.health => 'Health',
+        TransactionCategory.education => 'Education',
+        TransactionCategory.travel => 'Travel',
+        TransactionCategory.investment => 'Investment',
+        TransactionCategory.gift => 'Gift',
         TransactionCategory.other => 'Other',
       };
 
@@ -63,4 +93,3 @@ extension TransactionCategoryX on TransactionCategory {
     );
   }
 }
-
