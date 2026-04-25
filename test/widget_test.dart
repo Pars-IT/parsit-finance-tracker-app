@@ -27,8 +27,7 @@ void main() {
   });
 }
 
-class _FakeTransactionsController
-    extends AutoDisposeAsyncNotifier<List<FinanceTransaction>> {
+class _FakeTransactionsController extends TransactionsController {
   @override
   Future<List<FinanceTransaction>> build() async => [];
 }
