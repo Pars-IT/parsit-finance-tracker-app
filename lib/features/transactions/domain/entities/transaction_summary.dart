@@ -9,8 +9,6 @@ class TransactionSummary {
   final double incomeTotal;
   final double expenseTotal;
 
-  double get balance => incomeTotal - expenseTotal;
-
   factory TransactionSummary.fromTransactions(
     List<FinanceTransaction> transactions,
   ) {
@@ -30,5 +28,6 @@ class TransactionSummary {
       expenseTotal: expense,
     );
   }
-}
 
+  double get balance => incomeTotal - expenseTotal;
+}

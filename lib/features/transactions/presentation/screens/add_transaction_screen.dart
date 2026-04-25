@@ -109,7 +109,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<TransactionType>(
-                  value: _selectedType,
+                  initialValue: _selectedType,
                   decoration: const InputDecoration(labelText: 'Type'),
                   items: TransactionType.values
                       .map(
@@ -134,7 +134,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<TransactionCategory>(
-                  value: _selectedCategory,
+                  initialValue: _selectedCategory,
                   decoration: const InputDecoration(labelText: 'Category'),
                   items: TransactionCategory.values
                       .map(
@@ -174,4 +174,3 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     );
   }
 }
-
